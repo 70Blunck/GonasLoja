@@ -141,8 +141,3 @@ main {
 .btn-voltar:hover {
   background-color: #0c9fb9;
 }
-
-.footer-carrinho{
-  position: absolute;
-  bottom: 0px;
-}
