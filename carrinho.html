@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <title>Meu Carrinho</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <header>
+    <h1>Seu Carrinho</h1>
+    <a class="btn-voltar" href="index.html">← Voltar para loja</a>
+  </header>
+
+  <main>
+    <section class="item-carrinho" id="lista-carrinho">
+      <!-- Produtos do carrinho aparecerão aqui -->
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2025 - Projeto Web</p>
+  </footer>
+
+  <script>
+  let carrinho = JSON.parse(localStorage.getItem("carrinho")) || [];
+
+  const section = document.getElementById("lista-carrinho");
+
+  function salvarCarrinho() {
+    localStorage.setItem("carrinho", JSON.stringify(carrinho));
+  }
+
+  function renderizarCarrinho() {
+    section.innerHTML = "";
+    if (carrinho.length === 0) {
+      section.innerHTML = "<p>Seu carrinho está vazio.</p>";
+      return;
+    }
+
+    const lista = document.createElement("ol");
+
+    carrinho.forEach((prod, index) => {
+      const item = document.createElement("li");
+      item.innerHTML = `
+        <strong>${prod.title}</strong><br>
+        Preço: R$ ${prod.price.toFixed(2)}<br>
+        <button class="remover-btn" data-index="${index}">Remover</button>
+      `;
+      lista.appendChild(item);
+    });
+
+    section.appendChild(lista);
+
+    document.querySelectorAll(".remover-btn").forEach(btn => {
+      btn.addEventListener("click", (e) => {
+        const idx = parseInt(e.target.dataset.index);
+        carrinho.splice(idx, 1);
+        salvarCarrinho();
+        renderizarCarrinho();
+      });
+    });
+  }
+
+  renderizarCarrinho();
+</script>
+
+</body>
+</html>
